@@ -27,7 +27,7 @@ void MainWindow::openJson()
     /*--打开文件--*/
     if (!aFile.open(QIODevice::ReadOnly | QIODevice::Text))  //文件可读写
     {
-        QMessageBox::critical(this, "致命错误", QString("打开货币列表失败,行%1").arg(__LINE__));
+        QMessageBox::critical(this, "致命错误", QString("打开货币列表.json失败,行%1,请在同级目录下放[货币列表.json]文件").arg(__LINE__));
         return;
     }
     /*--数据全部读取--*/
@@ -107,6 +107,8 @@ QString MainWindow::getCurrencySymbol()
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    /*--设置窗口标题--*/
+    this->setWindowTitle("汇率计算器-mojovs");
     /*--打开json并解析--*/
     openJson();
     /*--添加货币到组件--*/
@@ -145,10 +147,10 @@ void MainWindow::on_readyRead()
     int     pos     = 0;
     QRegExp rx("\\d\\sCNY\\s=\\s(\\d+\\.\\d+)\\s");
     pos = rx.indexIn(data, 0);
-    if (pos < 0) {
-        QMessageBox::information(this, "错误", "正则没有查找到");
-        return;
-    }
+//    if (pos < 0) {
+//        QMessageBox::information(this, "错误", "正则没有查找到");
+//        return;
+//    }
     ui->plainTextEdit->appendPlainText(QString("---开始获取汇率信息---"));
     ui->plainTextEdit->appendPlainText(rx.cap(0));
     strRate = rx.cap(1);
