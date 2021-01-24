@@ -4,6 +4,7 @@
 2. 完成计算
 ## 使用说明
 下载地址https://github.com/mojovs/CurrencyRateConvertor/releases/download/0.1/Convertor-0.1.7z
+
 使用的时候要在程序同级目录，放一个名为  "货币列表.json"的文件(以后有时间改成直接界面添加)，
 __货币列表.json已经随源码附带__
 #### 添加更多货币
