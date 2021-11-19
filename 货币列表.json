@@ -1,0 +1,15 @@
+{
+	"name":"在线货币",
+	"url":"https://cn.exchange-rates.org/converter/CNY/",
+	"currencyName":[
+		"阿根廷比索",
+		"俄罗斯卢布",
+		"美国美元"
+	],
+	"currencySymbol":{
+		"阿根廷比索":"ARS",
+		"俄罗斯卢布":"RUB",
+		"美国美元":"USD"
+
+	}
+}
