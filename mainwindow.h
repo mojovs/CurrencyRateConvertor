@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <iostream>
+#include <fstream>
 
 namespace Ui
 {
@@ -37,11 +39,9 @@ class MainWindow : public QMainWindow
     QString urlStr;  //网络地址
     /*--私有函数--*/
     void setUrlByCurrency();
-    void openJson();                //打开json文件
-    void parseJson(QString& data);  //解析json，并将解析后的数据传递出去
     QString getCurrencySymbol();    //获取当前货币符号
     void ConvertMoney(int type);	//货币转换
-
+    void ParseJsonToUi();	//解析json中的货币列表到ui界面
   public:
     explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
@@ -54,6 +54,8 @@ class MainWindow : public QMainWindow
     void on_btnGetRate_clicked();
 
     void on_doubleSpinBoxYuan_editingFinished();
+
+    void on_act_setJson_triggered();
 
     void on_doubleSpinBoxOtherCurrency_editingFinished();
 

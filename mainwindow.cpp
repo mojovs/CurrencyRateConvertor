@@ -6,6 +6,8 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
+#include "myjson.h"
+#include "jsonmanagedialog.h"
 
 #include "ui_mainwindow.h"
 #pragma execution_character_set("utf-8")
@@ -15,99 +17,6 @@ void MainWindow::setUrlByCurrency()
     int index = ui->comboBoxCurrent->currentIndex();                 //	获取当前的货币index
     ui->lineEditUrl->setText(urlStr + symbolList.at(index) + "/1");  //获取
 }
-/*-----------------------------------------------私有 打开一个json文件----------------------------------*/
-void MainWindow::openJson()
-{
-    strList.clear();
-    symbolList.clear();
-    QString fileName = QDir::currentPath() + "/货币列表.json";
-    qDebug() << "打开的json地址为 " << fileName;
-    /*--文件被占用--*/
-    QFile aFile(fileName);
-    /*--打开文件--*/
-    if (!aFile.open(QIODevice::ReadOnly | QIODevice::Text))  //文件可读写
-    {
-        QMessageBox::critical(this, "致命错误",
-                              QString("打开货币列表.json失败,行%1,请在同级目录下放[货币列表.json]文件").arg(__LINE__));
-        return;
-    }
-    /*--数据全部读取--*/
-    QString data = aFile.readAll();
-
-    /*--文件关闭--*/
-    aFile.close();
-    /*--解析json--*/
-    parseJson(data);
-}
-
-/*-----------------------------------------------私有 解析json文件----------------------------------*/
-void MainWindow::parseJson(QString& data)
-{
-    qDebug() << data;
-    /*--转换到流--*/
-    QByteArray byteArray = data.toUtf8();
-
-    /*--创建json文档--*/
-    QJsonParseError jsonErr;
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(byteArray, &jsonErr);
-    if (jsonDoc.isNull() || jsonErr.error != QJsonParseError::NoError)
-    {
-        QMessageBox::critical(this, "致命错误", QString("jsonDoc创建错误,行%1").arg(__LINE__));
-        return;
-    }
-    /*--开始解析文档--*/
-    if (jsonDoc.isObject())  //如果json主体是object
-    {
-        QJsonObject object = jsonDoc.object();
-        if (object.contains("name"))
-            if (object.value("name").toString() != "在线货币")
-            {
-                QMessageBox::critical(this, "致命错误", "json文件类型错误");
-                return;
-            }
-        if (object.contains("url"))
-        {  //获取网络地址
-            QJsonValue jsonValue = object.value("url");
-            if (jsonValue.isString())
-            {
-                urlStr = jsonValue.toString();
-                ui->lineEditUrl->setText(urlStr);
-            }
-        }
-        /*--开始解析货币名称--*/
-        if (object.contains("currencyName"))
-        {
-            QJsonValue jsonValue = object.value("currencyName");
-            if (jsonValue.isArray())
-            {
-                QJsonArray mArray = jsonValue.toArray();  // json数组
-                for (int i = 0; i < mArray.size(); i++)
-                {
-                    strList.append(mArray.at(i).toString());  //把货币名称存储进列表里
-                }
-            }
-        }
-        /*--开始解析货币符号--*/
-        if (object.contains("currencySymbol"))
-        {
-            QJsonValue jsonValue = object.value("currencySymbol");
-            if (jsonValue.isObject())
-            {
-                QJsonObject mObject = jsonValue.toObject();  // jsonObject
-                for (int i = 0; i < strList.size(); i++)
-                {
-                    if (mObject.contains(strList.at(i)))
-                    {
-                        QJsonValue jsonValue = mObject.value(strList.at(i));
-                        symbolList.append(jsonValue.toString());
-                        qDebug() << jsonValue.toString();
-                    }
-                }
-            }
-        }
-    }
-}
-
 /*-----------------------------------------------获取当前货币符号----------------------------------*/
 QString MainWindow::getCurrencySymbol()
 {
@@ -159,7 +68,16 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     /*--设置窗口标题--*/
     this->setWindowTitle("汇率计算器-mojovs");
     /*--打开json并解析--*/
-    openJson();
+    MyJson myjson;
+    if(!myjson.isJsonFind)
+    {
+        QMessageBox::critical(this,"致命","打开json文件失败");
+        return;
+    }
+    symbolList=myjson.symbolList;	//获取货币符号列表
+    strList = myjson.strList;	//获取符号名称列表
+    urlStr = myjson.urlStr;		//获取json中的网址
+    ui->lineEditUrl->setText(urlStr);
     /*--添加货币到组件--*/
     ui->comboBoxCurrent->clear();
     for (const QString& str : strList)
@@ -261,3 +179,19 @@ void MainWindow::on_doubleSpinBoxOtherCurrency_editingFinished()
 
 /*-----------------------------------------------槽 设置缺省地址----------------------------------*/
 void MainWindow::on_btnDefaultUrl_clicked() {}
+
+/*-----------------------------------------------槽 打开json管理对话框----------------------------------*/
+void MainWindow::on_act_setJson_triggered()
+{
+    JsonManageDialog *jsonDialog = new JsonManageDialog(this);
+    //执行对话框
+   if(QDialog::Accepted == jsonDialog->exec())
+   {
+
+   }
+   jsonDialog->close();
+   jsonDialog->deleteLater();
+
+
+}
+

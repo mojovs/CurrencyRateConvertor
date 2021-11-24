@@ -24,11 +24,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+        jsonmanagedialog.cpp \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+        myjson.cpp
 
 HEADERS += \
-        mainwindow.h
+        jsonmanagedialog.h \
+        mainwindow.h \
+        myjson.h
 
 FORMS += \
+        jsonmanagedialog.ui \
         mainwindow.ui

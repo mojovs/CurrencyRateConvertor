@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>782</width>
-    <height>536</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -361,9 +361,16 @@ selection-background-color: rgb(203,219,252,180);
      <x>0</x>
      <y>0</y>
      <width>782</width>
-     <height>26</height>
+     <height>25</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menu">
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <addaction name="act_setJson"/>
+   </widget>
+   <addaction name="menu"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -374,6 +381,11 @@ selection-background-color: rgb(203,219,252,180);
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <action name="act_setJson">
+   <property name="text">
+    <string>设置json文件</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
