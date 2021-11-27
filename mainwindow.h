@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow
     /*--列表--*/
     QStringList strList;     //存储货币名称列表
     QStringList symbolList;  //货币符号列表
+    QStringList rateList;	//汇率列表
 
     QNetworkAccessManager networkManager;
     QNetworkReply* reply;

@@ -37,12 +37,25 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="lineEidtAddSymbol"/>
+      <widget class="QLineEdit" name="lineEditAddSymbol"/>
      </item>
      <item>
       <widget class="QPushButton" name="btnAdd">
        <property name="text">
         <string>添加</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnUpdate">
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(97, 159, 26);
+border-color: rgb(99, 99, 99);
+color: rgb(0, 0, 0);
+selection-background-color: rgb(126, 126, 126);</string>
+       </property>
+       <property name="text">
+        <string>更新</string>
        </property>
       </widget>
      </item>

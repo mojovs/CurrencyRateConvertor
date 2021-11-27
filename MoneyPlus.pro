@@ -37,3 +37,8 @@ HEADERS += \
 FORMS += \
         jsonmanagedialog.ui \
         mainwindow.ui
+
+RESOURCES += \
+    res.qrc
+
+RC_ICONS += res/head.ico

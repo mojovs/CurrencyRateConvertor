@@ -30,7 +30,6 @@ bool MyJson::OpenJson()
         //创建一个json文件
         CreateJsonFile();
     }
-    QString fileName;
     if(fileNameList.count()>0)
     {
         fileName = fileNameList.at(0);
@@ -56,7 +55,11 @@ bool MyJson::OpenJson()
     /*--文件关闭--*/
     aFile.close();
     /*--解析json--*/
-    ParseJson(data);
+    if(!ParseJson(data))
+    {
+        return false;
+    }
+    return true;
 }
 
 bool MyJson::CreateJsonFile()
@@ -93,7 +96,7 @@ bool MyJson::CreateJsonFile()
         return false;
 
     QFile aFile(fileName);
-    if(!aFile.open(QIODevice::ReadWrite|QIODevice::Text))
+    if(!aFile.open(QIODevice::ReadWrite|QIODevice::Text|QIODevice::Truncate))
     {
         qDebug()<<"打不开文件";
         return false;
@@ -103,12 +106,66 @@ bool MyJson::CreateJsonFile()
     isJsonFind=true;
 
     qDebug()<<"创建成功";
+    return true;
+}
+
+bool MyJson::CreateJsonFromLists(const QStringList ls1, const QStringList ls2, const QStringList ls3)
+{
+     qDebug()<<"创建列表";
+    //开始构建json结构
+    QJsonArray nameArray;
+    for(int i=0;i<ls1.count();i++)
+    {
+        nameArray.append(ls1.at(i));
+    }
+
+    QJsonArray symbolArray;
+    for(int i=0;i<ls2.count();i++)
+    {
+        symbolArray.append(ls2.at(i));
+    }
+
+    QJsonArray rateArray;
+    for(int i=0;i<ls3.count();i++)
+    {
+        rateArray.append(ls3.at(i));
+    }
+
+    //总体
+    QJsonObject json;
+    json.insert("name","在线货币");
+    json.insert("url","https://cn.exchange-rates.org/converter/CNY/");
+    json.insert("Currency",nameArray);
+    json.insert("CurrencySymbol",symbolArray);
+    json.insert("Rate",rateArray);
+    QJsonDocument document;
+    document.setObject(json);
+
+
+    //创建文件
+    QString filePath = QDir::currentPath();	//以当前路径为文件路径
+    QString fileName = filePath+"/货币列表.json";
+    if(filePath.isEmpty())
+        return false;
+
+    QFile aFile(fileName);
+    if(!aFile.open(QIODevice::ReadWrite|QIODevice::Text|QIODevice::Truncate))
+    {
+        qDebug()<<"打不开文件";
+        return false;
+    }
+    aFile.write(document.toJson());
+    aFile.close();
+
+    qDebug()<<"创建成功";
+    return true;
+
 }
 
 bool MyJson::FindJson()
 {
 
-    if(!FindFileInDir(QDir::currentPath(),"货币列表") || strList.count()<1)
+    if(!FindFileInDir(QDir::currentPath(),"货币列表") ||fileNameList.count()<1)
     {
         qDebug()<<"没有在该目录:"<<QDir::currentPath()<<"找到货币列表";
         return false;
@@ -203,6 +260,7 @@ bool MyJson::ParseJson(QString &data)
         }
 
     }
+    return true;
 }
 
 bool MyJson::ParseJsonArray(QString key,QJsonObject &mObj,QStringList &mList)

@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     }
     symbolList=myjson.symbolList;	//获取货币符号列表
     strList = myjson.strList;	//获取符号名称列表
+    rateList = myjson.rateList;
     urlStr = myjson.urlStr;		//获取json中的网址
     ui->lineEditUrl->setText(urlStr);
     /*--添加货币到组件--*/
@@ -88,8 +89,8 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
     /*--设置汇率--*/
     if (ui->doubleSpinBoxTimes->value() == 0)  //如果界面汇率没有设置，把汇率变为阿根廷汇率13
     {
-        times = 13;
-        ui->doubleSpinBoxTimes->setValue(13.0);
+        times = rateList.at(0).toDouble();
+        ui->doubleSpinBoxTimes->setValue(times);
     }
     else
         times = ui->doubleSpinBoxTimes->value();
@@ -126,6 +127,17 @@ void MainWindow::on_readyRead()
     ui->plainTextEdit->appendPlainText(QString("---开始获取汇率信息---"));
     ui->plainTextEdit->appendPlainText(rx.cap(0));
     strRate = rx.cap(1);
+    if(strRate.isEmpty())
+    {
+        QMessageBox::information(this,"提示","不是一个合法的货币名称或符号,汇率被设为0");
+        strRate="0.0";
+    }
+
+    //获取当前货币的index
+    int index = ui->comboBoxCurrent->currentIndex();
+    rateList.replace(index,strRate);
+    //同步到json文件
+    MyJson::CreateJsonFromLists(strList,symbolList,rateList);
     /*--设置lcd屏幕--*/
     ui->lcdNumber->display(strRate);
     /*--发送汇率--*/
@@ -191,6 +203,14 @@ void MainWindow::on_act_setJson_triggered()
    }
    jsonDialog->close();
    jsonDialog->deleteLater();
+   //更新主界面的数据
+   qDebug()<<"更新主界面";
+   MyJson json;
+   strList=json.strList;
+   symbolList = json.symbolList;
+   rateList = json.rateList;
+   ui->comboBoxCurrent->clear();
+   ui->comboBoxCurrent->addItems(strList);
 
 
 }
