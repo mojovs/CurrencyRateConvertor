@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>782</width>
-    <height>550</height>
+    <width>727</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -25,6 +25,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_3">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>人民币价值为该货币的多少倍</string>
           </property>
@@ -48,6 +54,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBoxTimes">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="maximum">
            <double>1000000.000000000000000</double>
           </property>
@@ -75,6 +87,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLabel" name="label">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>人民币</string>
           </property>
@@ -82,6 +100,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBoxYuan">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="maximum">
            <double>1000000.000000000000000</double>
           </property>
@@ -89,11 +113,17 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <spacer name="horizontalSpacer">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
+           <enum>QSizePolicy::Preferred</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -105,6 +135,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <widget class="QPushButton" name="pushButtonTrans">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
            <string>转换</string>
           </property>
@@ -112,11 +148,17 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <spacer name="horizontalSpacer_2">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
           <property name="sizeType">
-           <enum>QSizePolicy::Fixed</enum>
+           <enum>QSizePolicy::Preferred</enum>
           </property>
           <property name="sizeHint" stdset="0">
            <size>
@@ -128,6 +170,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
         </item>
         <item>
          <widget class="QDoubleSpinBox" name="doubleSpinBoxOtherCurrency">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="maximum">
            <double>10000000.000000000000000</double>
           </property>
@@ -150,7 +198,14 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
          </spacer>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBoxCurrent"/>
+         <widget class="QComboBox" name="comboBoxCurrent">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -159,7 +214,13 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLabel" name="label_4">
+       <widget class="QLabel" name="label_url">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>url地址</string>
         </property>
@@ -167,6 +228,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
       </item>
       <item>
        <widget class="QLineEdit" name="lineEditUrl">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="clearButtonEnabled">
          <bool>true</bool>
         </property>
@@ -174,6 +241,12 @@ font: 9pt &quot;Sarasa UI SC&quot;;</string>
       </item>
       <item>
        <widget class="QPushButton" name="btnGetRate">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="styleSheet">
          <string notr="true">border: 2px solid gray;
 background-color: rgb(153,229,80,180);
@@ -189,6 +262,12 @@ selection-background-color: rgb(203,219,252,180);
       </item>
       <item>
        <widget class="QPushButton" name="btnDefaultUrl">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>缺省URL地址</string>
         </property>
@@ -196,6 +275,12 @@ selection-background-color: rgb(203,219,252,180);
       </item>
       <item>
        <widget class="QPushButton" name="btnOk">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>OK</string>
         </property>
@@ -204,63 +289,72 @@ selection-background-color: rgb(203,219,252,180);
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>请输入抽成比率</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QDoubleSpinBox" name="doubleSpinBoxDeduction"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>抽成结果(rmb)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEditDeductionResult">
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>购买金额(rmb)</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEditOriginMoney">
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>最终比率</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEditRate">
-        <property name="clearButtonEnabled">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QGroupBox" name="groupBox_steamRate">
+      <property name="title">
+       <string>steam比率</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_4">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_steamRate">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>请输入抽成比率</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QDoubleSpinBox" name="doubleSpinBoxDeduction"/>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>抽成结果(rmb)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditDeductionResult">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>购买金额(rmb)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditOriginMoney">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>最终比率</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditRate">
+           <property name="clearButtonEnabled">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QGroupBox" name="groupBox_show">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -360,7 +454,7 @@ selection-background-color: rgb(203,219,252,180);
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>782</width>
+     <width>727</width>
      <height>25</height>
     </rect>
    </property>
@@ -370,7 +464,21 @@ selection-background-color: rgb(203,219,252,180);
     </property>
     <addaction name="act_setJson"/>
    </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="title">
+     <string>帮助</string>
+    </property>
+    <addaction name="action_about"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>视图</string>
+    </property>
+    <addaction name="action_simpleView"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_2"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -384,6 +492,19 @@ selection-background-color: rgb(203,219,252,180);
   <action name="act_setJson">
    <property name="text">
     <string>设置json文件</string>
+   </property>
+  </action>
+  <action name="action_about">
+   <property name="text">
+    <string>关于</string>
+   </property>
+  </action>
+  <action name="action_simpleView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>精简模式</string>
    </property>
   </action>
  </widget>

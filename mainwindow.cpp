@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QMessageBox>
+#include <aboutdialog.h>
 #include "myjson.h"
 #include "jsonmanagedialog.h"
 
@@ -114,35 +115,37 @@ void MainWindow::on_readyRead()
     /*-- 读取内容到数据里面 --*/
     QString data = reply->readAll();
     /*-- 显示文本框 --*/
-    ui->plainTextEdit->appendPlainText("---开始获取网络信息，请等待---");
-    ui->plainTextEdit->appendPlainText("---开始读取---");
     /*--正则处理文本，截取汇率--*/
     int pos = 0;
-    QRegExp rx("\\d\\sCNY\\s=\\s(\\d+\\.\\d+)\\s");
+    QString symbol = getCurrencySymbol();
+    QString reg = "\\d\\sCNY\\s=\\s(\\d+\\.\\d+)\\s"+symbol;
+    QRegExp rx(reg);
     pos = rx.indexIn(data, 0);
     //    if (pos < 0) {
     //        QMessageBox::information(this, "错误", "正则没有查找到");
     //        return;
     //    }
-    ui->plainTextEdit->appendPlainText(QString("---开始获取汇率信息---"));
     ui->plainTextEdit->appendPlainText(rx.cap(0));
-    strRate = rx.cap(1);
-    if(strRate.isEmpty())
+    if(!rx.cap(1).isEmpty())
     {
-        QMessageBox::information(this,"提示","不是一个合法的货币名称或符号,汇率被设为0");
-        strRate="0.0";
+        strRate = rx.cap(1);
+        //获取当前货币的index
+        int index = ui->comboBoxCurrent->currentIndex();
+        rateList.replace(index,strRate);
+        //同步到json文件
+        MyJson::CreateJsonFromLists(strList,symbolList,rateList);
+        /*--设置lcd屏幕--*/
+        ui->lcdNumber->display(strRate);
+        /*--发送汇率--*/
+        ui->doubleSpinBoxTimes->setValue(strRate.toDouble());
+        ui->plainTextEdit->appendPlainText("---读取完毕---");
+        return;
+    }else
+    {
+        ui->plainTextEdit->appendPlainText("---获取汇率中---");
     }
 
-    //获取当前货币的index
-    int index = ui->comboBoxCurrent->currentIndex();
-    rateList.replace(index,strRate);
-    //同步到json文件
-    MyJson::CreateJsonFromLists(strList,symbolList,rateList);
-    /*--设置lcd屏幕--*/
-    ui->lcdNumber->display(strRate);
-    /*--发送汇率--*/
-    ui->doubleSpinBoxTimes->setValue(strRate.toDouble());
-    ui->plainTextEdit->appendPlainText("---读取完毕---");
+
 }
 
 /*-----------------------------------------------槽 开始转换----------------------------------*/
@@ -170,6 +173,8 @@ void MainWindow::on_btnGetRate_clicked()
         return;
     }
 
+    ui->plainTextEdit->appendPlainText("---开始获取网络信息，请等待---");
+    ui->plainTextEdit->appendPlainText("---开始读取---");
     /*--获取reply--*/
     reply = networkManager.get(QNetworkRequest(urlSpec));
 
@@ -212,6 +217,57 @@ void MainWindow::on_act_setJson_triggered()
    ui->comboBoxCurrent->clear();
    ui->comboBoxCurrent->addItems(strList);
 
+
+}
+
+
+/*----------------------切换货币，则切换汇率---------------------------*/
+void MainWindow::on_comboBoxCurrent_currentIndexChanged(int index)
+{
+    ui->doubleSpinBoxTimes->setValue(rateList.at(index).toDouble());
+
+}
+
+
+/*----------------------关于对话框---------------------------*/
+void MainWindow::on_action_about_triggered()
+{
+    AboutDialog *dialog = new AboutDialog(this);
+    if(QDialog::Accepted == dialog->exec())
+    {
+
+    }
+    dialog->close();
+    dialog->deleteLater();
+
+}
+
+
+void MainWindow::on_action_simpleView_triggered(bool checked)
+{
+    //如果不是精简模式就显示界面
+    if(false == checked)
+    {
+        ui->lineEditUrl->show();
+        ui->btnOk->show();
+        ui->btnDefaultUrl->show();
+        ui->label_url->show();
+        ui->groupBox_show->show();
+        ui->groupBox_steamRate->show();
+
+    }else
+    {
+
+        //设置某些ui隐藏
+        ui->lineEditUrl->hide();
+        ui->btnOk->hide();
+        ui->btnDefaultUrl->hide();
+        ui->label_url->hide();
+        ui->groupBox_show->hide();
+        ui->groupBox_steamRate->hide();
+    }
+    //设置窗口大小
+    this->adjustSize();
 
 }
 

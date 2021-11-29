@@ -58,11 +58,17 @@ class MainWindow : public QMainWindow
 
     void on_act_setJson_triggered();
 
+    void on_comboBoxCurrent_currentIndexChanged(int index);
+
     void on_doubleSpinBoxOtherCurrency_editingFinished();
 
     void on_btnDefaultUrl_clicked();
 
-  private:
+    void on_action_about_triggered();
+
+    void on_action_simpleView_triggered(bool checked);
+
+private:
     Ui::MainWindow* ui;
 };
 
