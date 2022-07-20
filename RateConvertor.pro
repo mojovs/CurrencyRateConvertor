@@ -8,7 +8,7 @@ QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = MoneyPlus
+TARGET = RateConvertor
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -24,17 +24,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+        Currency.cpp \
+        Json.cpp \
         aboutdialog.cpp \
         jsonmanagedialog.cpp \
         main.cpp \
-        mainwindow.cpp \
-        myjson.cpp
+        mainwindow.cpp
 
 HEADERS += \
+        Currency.h \
+        Json.h \
         aboutdialog.h \
         jsonmanagedialog.h \
-        mainwindow.h \
-        myjson.h
+        mainwindow.h
 
 FORMS += \
         aboutdialog.ui \

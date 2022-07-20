@@ -7,7 +7,6 @@
 #include <QJsonParseError>
 #include <QMessageBox>
 #include <aboutdialog.h>
-#include "myjson.h"
 #include "jsonmanagedialog.h"
 
 #include "ui_mainwindow.h"
@@ -15,8 +14,8 @@
 /*-----------------------------------------------私有 根据货币种类设置相应的网址----------------------------------*/
 void MainWindow::setUrlByCurrency()
 {
-    int index = ui->comboBoxCurrent->currentIndex();                 //	获取当前的货币index
-    ui->lineEditUrl->setText(urlStr + symbolList.at(index) + "/1");  //获取
+    int index = ui->comboBoxCurrent->currentIndex();                //	获取当前的货币index
+    ui->lineEditUrl->setText(urlStr + symbolList.at(index) + "/1"); //获取
 }
 /*-----------------------------------------------获取当前货币符号----------------------------------*/
 QString MainWindow::getCurrencySymbol()
@@ -29,19 +28,19 @@ QString MainWindow::getCurrencySymbol()
 void MainWindow::ConvertMoney(int type)
 {
     otherCurrency = ui->doubleSpinBoxOtherCurrency->value();
-    yuan = ui->doubleSpinBoxYuan->value();
-    times = ui->doubleSpinBoxTimes->value();
-    deductionRate = ui->doubleSpinBoxDeduction->value();  //获取抽成税率
-    if (otherCurrency != 0 || yuan != 0)                  //如果这俩货币不为0
+    yuan          = ui->doubleSpinBoxYuan->value();
+    times         = ui->doubleSpinBoxTimes->value();
+    deductionRate = ui->doubleSpinBoxDeduction->value(); //获取抽成税率
+    if (otherCurrency != 0 || yuan != 0)                 //如果这俩货币不为0
     {
-        if(type==OtherToYuan)
+        if (type == OtherToYuan)
         {
             yuan = otherCurrency / times;
             ui->doubleSpinBoxYuan->setValue(yuan);
-        }else if(type==YuanToOther)
+        }
+        else if (type == YuanToOther)
         {
-
-            otherCurrency= yuan* times;
+            otherCurrency = yuan * times;
             ui->doubleSpinBoxOtherCurrency->setValue(otherCurrency);
         }
 
@@ -49,7 +48,7 @@ void MainWindow::ConvertMoney(int type)
         //获取原始金额
         originMoney = ui->lineEditOriginMoney->text().toDouble();
         //获取最终比率
-        finalRate= originMoney/deductionRes;
+        finalRate = originMoney / deductionRes;
         //设置界面
         ui->doubleSpinBoxOtherCurrency->setValue(otherCurrency);
         ui->lineEditDeductionResult->setText(QString::number(deductionRes));
@@ -62,33 +61,38 @@ void MainWindow::ConvertMoney(int type)
     }
 }
 
+void MainWindow::updateInfo()
+{
+    symbolList = json->currency.getSymbolList(); //获取货币符号列表
+    strList    = json->currency.getNameList();   //获取货币符号列表
+    rateList   = json->currency.getRateList();   //获取货币符号列表
+    urlStr     = json->getUrlStr();              //获取json中的网址
+}
+
 /*-----------------------------------------------构造----------------------------------*/
-MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     /*--设置窗口标题--*/
     this->setWindowTitle("汇率计算器-mojovs");
     /*--打开json并解析--*/
-    MyJson myjson;
-    if(!myjson.isJsonFind)
+    json = new Json();
+    if (!json->fileExist())
     {
-        QMessageBox::critical(this,"致命","打开json文件失败");
+        QMessageBox::critical(this, "致命", "打开json文件失败");
         return;
     }
-    symbolList=myjson.symbolList;	//获取货币符号列表
-    strList = myjson.strList;	//获取符号名称列表
-    rateList = myjson.rateList;
-    urlStr = myjson.urlStr;		//获取json中的网址
+    updateInfo(); //更新类货币信息
     ui->lineEditUrl->setText(urlStr);
     /*--添加货币到组件--*/
     ui->comboBoxCurrent->clear();
-    for (const QString& str : strList)
+    for (const QString &str : strList)
     {
         ui->comboBoxCurrent->addItem(str);
     }
     ui->comboBoxCurrent->setCurrentIndex(0);
     /*--设置汇率--*/
-    if (ui->doubleSpinBoxTimes->value() == 0)  //如果界面汇率没有设置，把汇率变为阿根廷汇率13
+    if (ui->doubleSpinBoxTimes->value() == 0) //如果界面汇率没有设置，把汇率变为阿根廷汇率13
     {
         times = rateList.at(0).toDouble();
         ui->doubleSpinBoxTimes->setValue(times);
@@ -106,7 +110,11 @@ MainWindow::MainWindow(QWidget* parent) : QMainWindow(parent), ui(new Ui::MainWi
 }
 
 /*-----------------------------------------------析构----------------------------------*/
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow()
+{
+    delete ui;
+    delete json;
+}
 
 /*-----------------------------------------------槽 回复----------------------------------*/
 void MainWindow::on_readyRead()
@@ -116,9 +124,9 @@ void MainWindow::on_readyRead()
     QString data = reply->readAll();
     /*-- 显示文本框 --*/
     /*--正则处理文本，截取汇率--*/
-    int pos = 0;
+    int pos        = 0;
     QString symbol = getCurrencySymbol();
-    QString reg = "\\d\\sCNY\\s=\\s(\\d+\\.\\d+)\\s"+symbol;
+    QString reg    = "\\d\\sCNY\\s=\\s(\\d+\\.\\d+)\\s" + symbol;
     QRegExp rx(reg);
     pos = rx.indexIn(data, 0);
     //    if (pos < 0) {
@@ -126,26 +134,25 @@ void MainWindow::on_readyRead()
     //        return;
     //    }
     ui->plainTextEdit->appendPlainText(rx.cap(0));
-    if(!rx.cap(1).isEmpty())
+    if (!rx.cap(1).isEmpty())
     {
         strRate = rx.cap(1);
         //获取当前货币的index
         int index = ui->comboBoxCurrent->currentIndex();
-        rateList.replace(index,strRate);
+        rateList.replace(index, strRate);
         //同步到json文件
-        MyJson::CreateJsonFromLists(strList,symbolList,rateList);
+        json->flushToJson();
         /*--设置lcd屏幕--*/
         ui->lcdNumber->display(strRate);
         /*--发送汇率--*/
         ui->doubleSpinBoxTimes->setValue(strRate.toDouble());
         ui->plainTextEdit->appendPlainText("---读取完毕---");
         return;
-    }else
+    }
+    else
     {
         ui->plainTextEdit->appendPlainText("---获取汇率中---");
     }
-
-
 }
 
 /*-----------------------------------------------槽 开始转换----------------------------------*/
@@ -202,51 +209,39 @@ void MainWindow::on_act_setJson_triggered()
 {
     JsonManageDialog *jsonDialog = new JsonManageDialog(this);
     //执行对话框
-   if(QDialog::Accepted == jsonDialog->exec())
-   {
-
-   }
-   jsonDialog->close();
-   jsonDialog->deleteLater();
-   //更新主界面的数据
-   qDebug()<<"更新主界面";
-   MyJson json;
-   strList=json.strList;
-   symbolList = json.symbolList;
-   rateList = json.rateList;
-   ui->comboBoxCurrent->clear();
-   ui->comboBoxCurrent->addItems(strList);
-
-
+    if (QDialog::Accepted == jsonDialog->exec())
+    {
+    }
+    jsonDialog->close();
+    jsonDialog->deleteLater();
+    //更新主界面的数据
+    qDebug() << "更新主界面";
+    updateInfo();
+    ui->comboBoxCurrent->clear();
+    ui->comboBoxCurrent->addItems(strList);
 }
-
 
 /*----------------------切换货币，则切换汇率---------------------------*/
 void MainWindow::on_comboBoxCurrent_currentIndexChanged(int index)
 {
     ui->doubleSpinBoxTimes->setValue(rateList.at(index).toDouble());
-
 }
-
 
 /*----------------------关于对话框---------------------------*/
 void MainWindow::on_action_about_triggered()
 {
     AboutDialog *dialog = new AboutDialog(this);
-    if(QDialog::Accepted == dialog->exec())
+    if (QDialog::Accepted == dialog->exec())
     {
-
     }
     dialog->close();
     dialog->deleteLater();
-
 }
-
 
 void MainWindow::on_action_simpleView_triggered(bool checked)
 {
     //如果不是精简模式就显示界面
-    if(false == checked)
+    if (false == checked)
     {
         ui->lineEditUrl->show();
         ui->btnOk->show();
@@ -254,10 +249,9 @@ void MainWindow::on_action_simpleView_triggered(bool checked)
         ui->label_url->show();
         ui->groupBox_show->show();
         ui->groupBox_steamRate->show();
-
-    }else
+    }
+    else
     {
-
         //设置某些ui隐藏
         ui->lineEditUrl->hide();
         ui->btnOk->hide();
@@ -268,6 +262,4 @@ void MainWindow::on_action_simpleView_triggered(bool checked)
     }
     //设置窗口大小
     this->adjustSize();
-
 }
-
