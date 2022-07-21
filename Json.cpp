@@ -84,7 +84,7 @@ void Json::openJson()
     /*--文件关闭--*/
     aFile.close();
     /*--解析json--*/
-    if (!ParseJson(data))
+    if (!ParseJsonData(data))
     {
         return;
     }
@@ -257,9 +257,15 @@ void Json::flushToJson()
     qDebug() << "创建成功";
     return;
 }
-bool Json::ParseJson(QString &data)
+/**
+ * @brief Json::ParseJson 将json原始数据信息提取出来
+ * @param data
+ * @return
+ */
+bool Json::ParseJsonData(QString &data)
 {
     // qDebug() << data;
+    currency.clear();
     /*--转换到流--*/
     QByteArray byteArray = data.toUtf8();
 

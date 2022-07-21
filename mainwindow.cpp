@@ -224,7 +224,10 @@ void MainWindow::on_act_setJson_triggered()
 /*----------------------切换货币，则切换汇率---------------------------*/
 void MainWindow::on_comboBoxCurrent_currentIndexChanged(int index)
 {
-    ui->doubleSpinBoxTimes->setValue(rateList.at(index).toDouble());
+    if (index >= 0)
+    {
+        ui->doubleSpinBoxTimes->setValue(rateList.at(index).toDouble());
+    }
 }
 
 /*----------------------关于对话框---------------------------*/

@@ -42,3 +42,17 @@ void Currency::setRateList(const QStringList &newRateList)
 
 Currency::Currency() {}
 Currency::~Currency() {}
+
+void Currency::reset()
+{
+    clear();
+
+    //设置默认值
+}
+
+void Currency::clear()
+{
+    this->nameList.clear();
+    this->rateList.clear();
+    this->symbolList.clear();
+}

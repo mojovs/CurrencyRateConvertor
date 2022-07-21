@@ -16,6 +16,9 @@ class Currency
     Currency();
     ~Currency();
 
+    void reset(); //重置
+    void clear(); //清空
+
     int getCurIndex() const;
     void setCurIndex(int newCurIndex);
     QStringList &getNameList();

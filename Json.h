@@ -26,7 +26,7 @@ class Json
     void openJson(); //打开json文件，并刷新界面
     void newJson();  //创建一个json文件
 
-    bool ParseJson(QString &data); //解析json文件原始数据，到currency本地
+    bool ParseJsonData(QString &data); //解析json文件原始数据，到currency本地
     bool ParseJsonArray(QString key, QJsonObject &mObj, QStringList &mList);
     void flushToJson(); //将currency数据更新至json文件
 
