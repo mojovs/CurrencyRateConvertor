@@ -26,6 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         Currency.cpp \
         Json.cpp \
+        Networker.cpp \
+        UI/MainUI.cpp \
+        UI/UIManager.cpp \
         aboutdialog.cpp \
         jsonmanagedialog.cpp \
         main.cpp \
@@ -34,6 +37,9 @@ SOURCES += \
 HEADERS += \
         Currency.h \
         Json.h \
+        Networker.h \
+        UI/MainUI.h \
+        UI/UIManager.h \
         aboutdialog.h \
         jsonmanagedialog.h \
         mainwindow.h
@@ -43,6 +49,7 @@ FORMS += \
         jsonmanagedialog.ui \
         mainwindow.ui
 
+INCLUDEPATH +=./UI
 RESOURCES += \
     res.qrc
 

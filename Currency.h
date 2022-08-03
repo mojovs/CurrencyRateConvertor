@@ -18,6 +18,7 @@ class Currency
 
     void reset(); //重置
     void clear(); //清空
+    void updateRateBySymbol(QString symbol, qreal rate);
 
     int getCurIndex() const;
     void setCurIndex(int newCurIndex);

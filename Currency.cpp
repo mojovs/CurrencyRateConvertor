@@ -1,5 +1,7 @@
 ﻿#include "Currency.h"
-
+#include <QDebug>
+Currency::Currency() {}
+Currency::~Currency() {}
 int Currency::getCurIndex() const
 {
     return curIndex;
@@ -40,9 +42,6 @@ void Currency::setRateList(const QStringList &newRateList)
     rateList = newRateList;
 }
 
-Currency::Currency() {}
-Currency::~Currency() {}
-
 void Currency::reset()
 {
     clear();
@@ -55,4 +54,15 @@ void Currency::clear()
     this->nameList.clear();
     this->rateList.clear();
     this->symbolList.clear();
+}
+
+void Currency::updateRateBySymbol(QString symbol, qreal rate)
+{
+    if (!symbolList.contains(symbol))
+    {
+        qDebug() << "This Symbol isnt contained by list ";
+        return;
+    }
+    int index = symbolList.indexOf(symbol);
+    symbolList.replace(index, QString::number(rate)); //替换该位置数据
 }
