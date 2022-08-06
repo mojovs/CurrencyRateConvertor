@@ -18,21 +18,12 @@ Networker::Networker(QObject *parent) : QObject{parent}
  */
 Networker::~Networker()
 {
-    delete reply;
+    // delete reply;
     delete mainUI;
 }
-const QString &Networker::getUrlStr() const
-{
-    return urlStr;
-}
-
-void Networker::setUrlStr(const QString &newUrlStr)
-{
-    urlStr = newUrlStr;
-}
-
 void Networker::on_readyRead()
 {
+    symbol = mainUI->getCurrencySymbol();
     /*-- 读取内容到数据里面 --*/
     QString data = reply->readAll();
     /*-- 显示文本框 --*/
@@ -57,43 +48,35 @@ void Networker::on_readyRead()
     else
     {
         qDebug() << "继续获取";
+        mainUI->txtShow->appendPlainText("获取失败");
         emit getRateFailed();
     }
 }
-
-const QString &Networker::getSymbol() const
-{
-    return symbol;
-}
-
-void Networker::setSymbol(const QString &newSymbol)
-{
-    symbol = newSymbol;
-}
-
 /**
  * @brief 从reply里，获取汇率
  */
-QString Networker::getRate()
+void Networker::getRate()
 {
+    urlStr = mainUI->txtUrl->text();
     /*--设置界面url--*/
     qDebug() << urlStr;
     /*--获取地址--*/
     if (urlStr.isEmpty())
     {
         qDebug() << "Error:urlStr Empty";
-        return nullptr;
+        return;
     }
     QUrl urlSpec = QUrl::fromUserInput(urlStr);
     if (!urlSpec.isValid())
     {
         qDebug() << "Error:urlSpec is invalid";
-        return nullptr;
+        return;
     }
 
     /*--获取reply--*/
     reply = networkManager.get(QNetworkRequest(urlSpec));
 
     /*--函数绑定--*/
-    connect(reply, SIGNAL(readyRead()), this, SLOT(on_readyRead()));
+    connect(reply, &QNetworkReply::readyRead, this, &Networker::on_readyRead);
+    qDebug() << "Get";
 }

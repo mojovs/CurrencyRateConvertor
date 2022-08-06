@@ -25,25 +25,19 @@ class Networker : public QObject
   private:
     QNetworkAccessManager networkManager;
     QNetworkReply *reply;
-    MainUI *mainUI; //主UI更新
 
     QString urlStr; //网址
     QString symbol; //当前货币 英文缩写
     qreal rate;     //当前汇率
 
   public:
+    MainUI *mainUI; //主UI更新
     explicit Networker(QObject *parent = nullptr);
     ~Networker();
 
-    const QString &getUrlStr() const;
-    void setUrlStr(const QString &newUrlStr);
-
-    const QString &getSymbol() const;
-    void setSymbol(const QString &newSymbol);
-
-  private slots:
+  public slots:
     void on_readyRead(); //开始读取网络回复
-    QString getRate();   //获取rate
+    void getRate();      //获取rate
   signals:
     void rateGot(QString symbol, qreal rate);
     void getRateFailed(); //获取汇率失败

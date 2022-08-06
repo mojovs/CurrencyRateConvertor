@@ -2,6 +2,7 @@
 #define UIMANAGER_H
 
 #include <QObject>
+#include <QList>
 
 class UIManager : public QObject
 {
@@ -10,7 +11,8 @@ class UIManager : public QObject
     explicit UIManager(QObject *parent = nullptr);
     ~UIManager();
 
-    virtual void update2UI() = 0;
+    virtual void update2UI()                                  = 0;
+    virtual void attatchUIComponent(QList<QObject *> &uiList) = 0; //将界面组件添加至UI管理类
 
   protected:
     qreal times         = 0;    //人民币为其他货币的多少倍
