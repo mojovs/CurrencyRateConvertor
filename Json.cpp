@@ -218,7 +218,7 @@ bool Json::ParseJsonArray(QString key, QJsonObject &mObj, QStringList &mList)
  */
 void Json::flushToJson()
 {
-    qDebug() << "创建列表";
+    qDebug() << "开始刷新数据到json文件";
     int count = currency.getNameList().count(); //数据量
     //开始构建json结构
     QJsonArray nameArray;

@@ -20,12 +20,13 @@ JsonManageDialog::JsonManageDialog(QWidget *parent) : QDialog(parent), ui(new Ui
 JsonManageDialog::~JsonManageDialog()
 {
     delete ui;
+    delete json;
 }
 
 /*-------------------------更新数据到UI界面--------------------------*/
 bool JsonManageDialog::UpdateToUi()
 {
-    qDebug() << "更新界面";
+    qDebug() << "更新数据到界面";
     QTableWidget *table = ui->tableWidget;
     table->setColumnCount(3);
     table->setRowCount(1);
@@ -114,10 +115,9 @@ void JsonManageDialog::AddRowItemToTable(int row, int col, QStringList list, QTa
 
 void JsonManageDialog::AddRowItemToTable(int row, int col, QString name, QTableWidget *table, int align)
 {
-    QTableWidgetItem *tableItem0 = new QTableWidgetItem(name);
-    tableItem0->setTextAlignment(align);
-    table->setItem(row, col, tableItem0); //在末尾添加
-
+    QTableWidgetItem tableItem(name);
+    tableItem.setTextAlignment(align);
+    table->setItem(row, col, &tableItem); //在末尾添加
     //把数据添加到List列表里
     AddDataToList((ColumnType)col, name);
 }
@@ -125,18 +125,20 @@ void JsonManageDialog::AddRowItemToTable(int row, int col, QString name, QTableW
 /*-------------------------添加一行数据--------------------------*/
 void JsonManageDialog::on_btnAdd_clicked()
 {
+    // json添加空数据
     QString name   = ui->lineEditAddName->text();   //货币名称
     QString symbol = ui->lineEditAddSymbol->text(); //货币符号
 
     //符号列表
     QTableWidget *table = ui->tableWidget;
-
     table->insertRow(table->rowCount()); //添加一行
     //创建单元
+    //屏蔽信号，只添加item
+    table->blockSignals(true);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Name, name, table);
+    table->blockSignals(false);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Symol, symbol, table);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Rate, "1.0", table);
-
     table->update();
 }
 
@@ -155,7 +157,7 @@ void JsonManageDialog::on_tableWidget_itemChanged(QTableWidgetItem *item)
     qDebug() << "当前item内容改变";
 
     QStringList *list = FindDataType((ColumnType)col);
-    //更改自符串
+    //更改json数据
     list->replace(row, str);
     //更新到文件
     json->flushToJson(); //更新到json文件
