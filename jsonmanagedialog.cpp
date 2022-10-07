@@ -136,9 +136,9 @@ void JsonManageDialog::on_btnAdd_clicked()
     //屏蔽信号，只添加item
     table->blockSignals(true);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Name, name, table);
-    table->blockSignals(false);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Symol, symbol, table);
     AddRowItemToTable(table->rowCount() - 1, ColumnType::Rate, "1.0", table);
+    table->blockSignals(false);
     table->update();
 }
 
