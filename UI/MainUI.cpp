@@ -23,7 +23,7 @@ void MainUI::update2UI()
     this->dbSpinBoxDeduction->setValue(this->deductionRate);
 
     //
-    txtUrl->setText(json->getUrlStr() + json->currency.getSymbolList().at(0) + "/1");
+    txtUrl->setText(json->getUrlStr()+"cny-" + json->currency.getSymbolList().at(0));
     //设置货币类型
     combCurrency->addItems(json->currency.getNameList());
     //设置lcd
@@ -136,7 +136,7 @@ void MainUI::init()
 void MainUI::setUrlByCurrency()
 {
     int index = combCurrency->currentIndex();                                             //	获取当前的货币index
-    txtUrl->setText(json->getUrlStr() + json->currency.getSymbolList().at(index) + "/1"); //获取
+    txtUrl->setText(json->getUrlStr()+"cny-"+getCurrencySymbol() ); //获取
 }
 /**
  * @brief 根据界面的货币疾患，获取当前的货币缩写

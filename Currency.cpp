@@ -66,10 +66,3 @@ void Currency::updateRateBySymbol(QString symbol, qreal rate)
     int index = symbolList.indexOf(symbol);
     rateList.replace(index, QString::number(rate)); //替换该位置数据
 }
-
-void Currency::appendEmpty()
-{
-    nameList << "";
-    symbolList << "";
-    rateList << "";
-}

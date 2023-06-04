@@ -48,7 +48,7 @@ void Networker::on_readyRead()
     else
     {
         qDebug() << "继续获取";
-        mainUI->txtShow->appendPlainText("------获取中-----");
+        mainUI->txtShow->appendPlainText("获取失败-->继续获取");
         emit getRateFailed();
     }
 }

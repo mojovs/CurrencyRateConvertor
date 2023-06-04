@@ -113,7 +113,7 @@ void Json::newJson()
     //总体
     QJsonObject json;
     json.insert("name", "在线货币");
-    json.insert("url", "https://cn.exchange-rates.org/converter/CNY/");
+    json.insert("url", "https://www.exchange-rates.org/zh/汇率换算器/");
     json.insert("Currency", nameArray);
     json.insert("CurrencySymbol", symbolArray);
     json.insert("Rate", rateArray);
@@ -200,7 +200,6 @@ bool Json::ParseJsonArray(QString key, QJsonObject &mObj, QStringList &mList)
             }
             // else if(mArray.at(i).isDouble())
             // {
-
             //     mList.append(mArray.at(i).toString());  //把货币名称存储进列表里
             // }
             else
@@ -218,7 +217,7 @@ bool Json::ParseJsonArray(QString key, QJsonObject &mObj, QStringList &mList)
  */
 void Json::flushToJson()
 {
-    qDebug() << "开始刷新数据到json文件";
+    qDebug() << "创建列表";
     int count = currency.getNameList().count(); //数据量
     //开始构建json结构
     QJsonArray nameArray;
@@ -235,7 +234,7 @@ void Json::flushToJson()
     //总体
     QJsonObject json;
     json.insert("name", "在线货币");
-    json.insert("url", "https://cn.exchange-rates.org/converter/CNY/");
+    json.insert("url", "https://www.exchange-rates.org/zh/汇率换算器/");
     json.insert("Currency", nameArray);
     json.insert("CurrencySymbol", symbolArray);
     json.insert("Rate", rateArray);
